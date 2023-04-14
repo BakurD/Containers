@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apache2-mysql
+  labels:
+    app: apache
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: apache
+  minReadySeconds: 80
+  template:
+    metadata:
+      labels:
+        app: apache
+    spec:
+      containers:
+      - name: apache2
+        image: bakur/bakur-apache2:latest
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "400Mi"
+        ports:
+        - containerPort: 80

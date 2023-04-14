@@ -1,0 +1,14 @@
+[client]
+host=localhost
+port=3306
+user=root
+password=password
+
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/run/mysqld/mysqld.sock
+port=3306
+bind-address=0.0.0.0
+user=mysql
+pid-file=/var/run/mysqld/mysqld.pid
+log-error=/var/log/mysql/error.log

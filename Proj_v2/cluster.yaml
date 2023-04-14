@@ -1,0 +1,23 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: bakur-k8s-test
+  region: us-east-1
+# vpc:
+  # id: vpc-029e33d64cb7cfadb # ID стандартной VPC в регионе us-east-1
+  # subnets:
+  #   private:
+  #     us-east-1a: { id: subnet-xxxxxx } # ID частного подсети в зоне доступности us-east-1a
+  #     us-east-1b: { id: subnet-xxxxxx } # ID частного подсети в зоне доступности us-east-1b
+  #     us-east-1c: { id: subnet-xxxxxx } # ID частного подсети в зоне доступности us-east-1c
+  #   public:
+  #     us-east-1a: { id: subnet-0713e7299d0edc962 } # ID общедоступного подсети в зоне доступности us-east-1a
+  #     us-east-1c: { id: subnet-xxxxxx } # ID общедоступного подсети в зоне досту
+nodeGroups:
+  - name: bakur
+    instanceType: m5.large
+    minSize: 2
+    maxSize: 5
+    desiredCapacity: 2
+    ssh:
+      publicKeyName: CI_CD
