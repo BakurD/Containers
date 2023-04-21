@@ -1,0 +1,57 @@
+version: '3'
+services:
+    php:
+        # image: 'php:7.2-fpm'
+        build:
+            context: ./docker
+            dockerfile: php.Dockerfile
+        container_name: ${APP_NAME:?err}-php
+        volumes:
+            - './app:/var/www/html'
+        depends_on:
+            - mariadb
+        ports:
+          - "9000:9000"
+
+    nginx:
+        image: nginx:latest
+        container_name: ${APP_NAME:?err}-nginx
+        ports:
+            - '80:80'
+            - '443:443'
+        links:
+            - 'php'
+        volumes:
+            - './app:/var/www/html'
+            - './config/nginx:/etc/nginx/conf.d'
+
+    mariadb:
+        image: mariadb:10.3.9
+        container_name: ${APP_NAME:?err}-mariadb
+        restart: 'on-failure'
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?err}
+        volumes:
+            - ${PWD}
+
+    node-exporter:
+        image: prom/node-exporter
+        container_name: ${APP_NAME:?err}-node-exporter
+        ports:
+            - '9100:9100'
+
+    prometheus:
+        image: prom/prometheus
+        container_name: ${APP_NAME:?err}-prometheus
+        ports:
+            - '9090:9090'
+        volumes:
+            - './config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml'
+
+    grafana:
+        image: grafana/grafana
+        container_name: ${APP_NAME:?err}-grafana
+        ports:
+            - '3000:3000'
+        volumes:
+            - './config/grafana:/etc/grafana'
