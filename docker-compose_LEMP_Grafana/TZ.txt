@@ -1,0 +1,2 @@
+LEMP + Grafana + prometheus + node exporter
+сбор метрик на localhost с сервера nginx и корректное отображание в Grafana!
